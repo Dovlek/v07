@@ -18,6 +18,11 @@ public:
 };
 
 class main_window : public vsite::nwp::window {
+private:
+	HBITMAP bmpimage = nullptr;
+	int bitmap_width;
+	int bitmap_height;
+	tstring file_name;
 protected:
 	void on_paint(HDC hdc) override;
 	void on_command(int id) override;
