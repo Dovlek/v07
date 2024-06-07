@@ -51,16 +51,17 @@ void main_window::on_command(int id)
 			ofn.Flags = OFN_HIDEREADONLY;
 			if (::GetOpenFileName(&ofn))
 			{
-				Bitmap* bitmap = new Bitmap(path);
-				if (bitmap->GetLastStatus() == Ok)
+				Bitmap bitmap(path);
+				if (bitmap.GetLastStatus() == Ok)
 				{
-					bitmap_height = bitmap->GetHeight();
-					bitmap_width = bitmap->GetWidth();
-					
-					bitmap->GetHBITMAP(Color::White, &bmpimage);
-					file_name = std::filesystem::path(path).filename();
+					bitmap_height = bitmap.GetHeight();
+					bitmap_width = bitmap.GetWidth();
 
-					DeleteObject(bitmap);
+					if (bmpimage)
+						DeleteObject(bmpimage);
+					
+					bitmap.GetHBITMAP(Color::White, &bmpimage);
+					file_name = std::filesystem::path(path).filename();
 				}
 				InvalidateRect(*this, nullptr, true);
 			}
